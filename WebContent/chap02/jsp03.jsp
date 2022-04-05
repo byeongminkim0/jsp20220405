@@ -10,5 +10,8 @@
 	<!-- h1>lorem1^p>lorem -->
 	<h1>Lorem.</h1>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos excepturi libero placeat qui id fugit nostrum aspernatur iusto et amet sequi iste enim quia totam esse quam reiciendis nam quaerat.</p>
+	
+	<!-- input*2 -->
+	<input type="text" /><input type="text" />
 </body>
 </html>
