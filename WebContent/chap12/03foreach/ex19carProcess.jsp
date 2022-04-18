@@ -39,7 +39,3 @@ response.sendRedirect("ex18carForm.jsp");
 
 
 %>
-
-
-
-
