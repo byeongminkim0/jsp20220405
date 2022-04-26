@@ -34,8 +34,9 @@ public class S14Servlet16 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String id = request.getParameter("id");
-		if(id != null) {
+		if (id != null) {
 			// db에서 조회
 			String sql = "SELECT EmployeeID, LastName, FirstName, BirthDate, Photo, Notes "
 					+ "FROM Employees "
@@ -62,25 +63,70 @@ public class S14Servlet16 extends HttpServlet {
 						
 						// request에 attribute로 넣고
 						request.setAttribute("employee", emp);
+						
 					}
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			
 		}
 		// forward
 		String path = "/WEB-INF/view/chap14/ex10.jsp";
 		request.getRequestDispatcher(path).forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String sql = "UPDATE Employees "
+				+ "SET LastName = ?, "
+				+ "    FirstName = ?, "
+				+ "    BirthDate = ?, "
+				+ "    Photo = ?, "
+				+ "    Notes = ? "
+				+ "WHERE EmployeeID = ? ";
+		
+		String lastName = request.getParameter("lastName");
+		String firstName = request.getParameter("firstName");
+		String birthDate = request.getParameter("birthDate");
+		String picture = request.getParameter("pic");
+		String notes = request.getParameter("notes");
+		String id = request.getParameter("id");
+		
+		int result = 0;
+		
+		ServletContext application = getServletContext();
+		DataSource ds = (DataSource) application.getAttribute("dbpool");
+		
+		try (Connection con = ds.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setString(1, lastName);
+			pstmt.setString(2, firstName);
+			pstmt.setString(3, birthDate);
+			pstmt.setString(4, picture);
+			pstmt.setString(5, notes);
+			pstmt.setInt(6, Integer.parseInt(id));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		String location = "S14Servlet16";
+		if (result == 1) {
+			// 잘된 거
+			location += "?success=true";
+		} else {
+			// 잘못 된 거
+			location += "?success=false";
+		}
+		
+		response.sendRedirect(location);
 	}
 
 }

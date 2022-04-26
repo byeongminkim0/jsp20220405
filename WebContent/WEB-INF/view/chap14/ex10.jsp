@@ -12,9 +12,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${not empty param.success }">
+		<c:if test="${param.success }">
+			<p class="text-success">수정 완료되었습니다.</p>
+		</c:if>
+		<c:if test="${not param.success }">
+			<p class="text-danger">수정 중 문제가 발생하였습니다.</p>
+		</c:if>
+	</c:if>
+
+
 	<c:if test="${empty employee }">
 		<form action="">
-			직원번호 <input type="number" name="id" value="1" />
+			직원번호 <input type="number" name="id" value="1" /> 
 			<input type="submit" value="조회" />
 		</form>
 	</c:if>
@@ -22,12 +32,24 @@
 	<c:if test="${not empty employee }">
 		<form method="post">
 			Last Name : <input type="text" name="lastName" value="${employee.lastName }" /> <br />
-			First Name : <input type="text" name="firstName" value="${employee.firstName }" /> <br />
-			Birth Date : <input type="date" name="birthDate" value="${employee.birthDate }" /> <br />
-			Picture : <input type="text" name="pic" value="${employee.photo }" /> <br />
+			First Name : <input type="text" name="firstName" value="${employee.firstName }"/> <br />
+			Birth Date : <input type="date" name="birthDate" value="${employee.birthDate }"/> <br />
+			Picture : <input type="text" name="pic" value="${employee.photo }"/> <br />
 			Notes : <textarea name="notes">${employee.notes }</textarea> <br />
 			<input type="submit" value="수정" />
-	</form>
+		</form>
 	</c:if>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
