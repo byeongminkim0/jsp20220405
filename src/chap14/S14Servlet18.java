@@ -16,19 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import chap14.javaBeans.Employee;
+import chap14.javaBeans.Customer;
 
 /**
- * Servlet implementation class S14Servlet17
+ * Servlet implementation class S14Servlet18
  */
-@WebServlet("/S14Servlet17")
-public class S14Servlet17 extends HttpServlet {
+@WebServlet("/S14Servlet18")
+public class S14Servlet18 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public S14Servlet17() {
+    public S14Servlet18() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,12 +37,12 @@ public class S14Servlet17 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		List<Customer> list = new ArrayList<>();
 		
-		List<Employee> list = new ArrayList<>();
-		
-		String sql = "SELECT EmployeeID, LastName, FirstName, BirthDate "
-				+ "FROM Employees "
-				+ "ORDER BY EmployeeID ";
+		String sql = "SELECT CustomerID, CustomerName, City, Country, PostalCode "
+				+ "FROM Customers "
+				+ "ORDER BY CustomerID ";
 		
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
@@ -52,13 +52,14 @@ public class S14Servlet17 extends HttpServlet {
 				ResultSet rs = stmt.executeQuery(sql);) {
 
 			while(rs.next()) {
-				Employee emp = new Employee();
-				emp.setId(rs.getInt(1));
-				emp.setLastName(rs.getString(2));
-				emp.setFirstName(rs.getString(3));
-				emp.setBirthDate(rs.getString(4));
+				Customer cus = new Customer();
+				cus.setId(rs.getInt(1));
+				cus.setName(rs.getString(2));
+				cus.setCity(rs.getString(3));
+				cus.setCountry(rs.getString(4));
+				cus.setPostCode(rs.getString(5));
 				
-				list.add(emp);
+				list.add(cus);
 			}
 
 		} catch (Exception e) {
@@ -66,9 +67,9 @@ public class S14Servlet17 extends HttpServlet {
 		}
 		
 		
-		request.setAttribute("employeeList", list);
+		request.setAttribute("customerList", list);
 		
-		String path = "/WEB-INF/view/chap14/ex11.jsp"; // 직원 목록이 table로 출력
+		String path = "/WEB-INF/view/chap14/ex12.jsp"; // 직원 목록이 table로 출력
 		request.getRequestDispatcher(path).forward(request, response);
 	}
 
@@ -76,10 +77,11 @@ public class S14Servlet17 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String id = request.getParameter("id");
 		
-		String sql = "DELETE FROM Employees "
-				+ "WHERE EmployeeID = ? ";
+		String sql = "DELETE FROM Customers "
+				+ "WHERE CustomerID = ? ";
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 		
@@ -95,7 +97,7 @@ public class S14Servlet17 extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String location = "S14Servlet17";
+		String location = "S14Servlet18";
 		
 		if (result == 1) {
 			location += "?success=true";

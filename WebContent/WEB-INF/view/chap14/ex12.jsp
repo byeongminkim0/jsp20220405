@@ -26,7 +26,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>직원목록</h1>
 	
 	<c:if test="${not empty param.success }">
 		<c:if test="${param.success }">
@@ -43,34 +42,37 @@
 	</c:if>
 	
 	<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">First Name</th>
-      <th scope="col">Birth Date</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <c:forEach items="${employeeList }" var="employee" >
-    	<tr>
-		    <th scope="row">${employee.id }</th>
-		    <td>${employee.lastName }</td>
-		    <td>${employee.firstName }</td>
-		    <td>${employee.birthDate }</td>
-		    <td>
-		    
-		    	<form action="" method="post">
-		    		<input type="hidden" name="id" value=${employee.id } />
-			    	<button class="delete-button"><i class="fa-solid fa-trash-can"></i></button>
+	  <thead>
+	    <tr>
+	      <th scope="col">ID</th>
+	      <th scope="col">Name</th>
+	      <th scope="col">City</th>
+	      <th scope="col">Country</th>
+	      <th scope="col">Post Code</th>
+	      <th scope="col"></th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <c:forEach items="${customerList }" var="customer" >
+	    	<tr>
+			    <th scope="row">${customer.id }</th>
+			    <td>${customer.name }</td>
+			    <td>${customer.city }</td>
+			    <td>${customer.country }</td>
+			    <td>${customer.postCode }</td>
+			    <td>
+			    
+			    	<form action="" method="post">
+			    		<input type="hidden" name="id" value=${customer.id } />
+				    	<button class="delete-button btn-danger">
+				    		<i class="fa-solid fa-trash-can"></i>
+				    	</button>
+			    	</form>
 			    	
-		    	</form>
-		    	
-			</td>
-    	</tr>
-    </c:forEach>
-  </tbody>
-</table>
+				</td>
+	    	</tr>
+	    </c:forEach>
+	  </tbody>
+	</table>
 </body>
 </html>
