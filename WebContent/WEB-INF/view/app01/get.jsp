@@ -12,40 +12,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- .container>.row>.col>h1{글 목록} -->
+	<!-- .container>.row>.col>h1{글 본문} -->
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h1>글 목록</h1>
+				<h1>글 본문</h1>
 				
-				<!-- table.table>thead>tr>th*3^^tbody -->
-				<table class="table">
-					<thead>
-						<tr>
-							<th><i class="fa-solid fa-hashtag"></i></th>
-							<th>제목</th>
-							<th><i class="fa-solid fa-calendar"></i></th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${boardList }" var="board">
-							<tr>
-								<td>${board.id }</td>
-								<td>
-									
-									<c:url value="/board/get" var="getUrl">
-										<c:param name="id" value="${board.id }"></c:param>
-									</c:url>
-									
-									<a href="${getUrl }">
-										${board.title }
-									</a>
-								</td>
-								<td>${board.prettyInserted }</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+					<div>
+						<label class="form-lable" for="input1">제목</label>
+						<input class="form-control" type="text" name="title" required id="input1" value="${board.title }" readonly />
+					</div>
+					
+					<div>
+						<label class="form-lable" for="textarea1">본문</label>
+						<textarea class="form-control" name="body" id="textarea1" cols="30" rows="10" readonly>${board.body }</textarea>
+					</div>
+					
+					<div>
+						<label for="input2" class="form-label">작성일시</label>
+						<input class="form-control" type="datetime-local" value="${board.inserted }" readonly />
+					</div>
 			</div>
 		</div>
 	</div>
