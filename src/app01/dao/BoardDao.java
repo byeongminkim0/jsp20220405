@@ -24,7 +24,6 @@ public class BoardDao {
 		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getBody());
-			
 			// LocalDate 날짜
 			// LocalDateTime 날짜 시간
 			LocalDateTime now = LocalDateTime.now();
@@ -45,11 +44,11 @@ public class BoardDao {
 		List<BoardDto> list = new ArrayList<>();
 		
 		String sql = "SELECT id, title, inserted FROM Board ORDER BY id DESC";
-		
+
 		try (Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);) {
 			
-			while(rs.next()) {
+			while (rs.next()) {
 				BoardDto board = new BoardDto();
 				board.setId(rs.getInt(1));
 				board.setTitle(rs.getString(2));
@@ -61,7 +60,7 @@ public class BoardDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
 	}
 
@@ -74,21 +73,58 @@ public class BoardDao {
 			
 			stmt.setInt(1, id);
 			
-				try(ResultSet rs = stmt.executeQuery()) {
-					if(rs.next()) {
-						BoardDto board = new BoardDto();
-						board.setId(rs.getInt(1));
-						board.setTitle(rs.getString(2));
-						board.setBody(rs.getString(3));
-						board.setInserted(rs.getTimestamp(4).toLocalDateTime());
-						
-						return board;
-					}
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					BoardDto board = new BoardDto();
+					board.setId(rs.getInt(1));
+					board.setTitle(rs.getString(2));
+					board.setBody(rs.getString(3));
+					board.setInserted(rs.getTimestamp(4).toLocalDateTime());
+					
+					return board;
 				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return null;
+	}
+
+	public boolean modify(Connection con, BoardDto board) {
+		String sql = "UPDATE Board "
+				+ "SET title=?, "
+				+ "    body=? "
+				+ "WHERE id=? ";
+		
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getBody());
+			pstmt.setInt(3, board.getId());
+			
+			int count = pstmt.executeUpdate();
+			
+			return count == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	public boolean delete(Connection con, int id) {
+		String sql = "DELETE FROM Board "
+				+ "WHERE id=? ";
+		
+		try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, id);
+			
+			int count = pstmt.executeUpdate();
+			return count == 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 }

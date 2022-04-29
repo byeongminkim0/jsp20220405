@@ -33,5 +33,6 @@ pageContext.setAttribute("map", map);
 <p>${map["soccer"] }</p>
 <p>${map["group"] }</p>
 <p>${map["my car"] }</p>
+
 </body>
 </html>
