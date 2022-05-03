@@ -129,6 +129,8 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col">
+				<h3>댓글 ${board.numOfReply } 개</h3>
+			
 				<form action="${appRoot }/reply/insert" method="post">
 					<div class="input-group">
 						<input type="hidden" name="boardId" value="${board.id }" />
