@@ -69,10 +69,10 @@ GROUP BY c.CategoryID
 ORDER BY Total DESC;
 
 -- '1996년 7월'
-SELECT c.CategoryID, c.CategoryName, SUM(d.Quantity) Total
-FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID
-				  JOIN OrderDetails d ON p.ProductID = d.ProductID
-                  JOIN Orders o ON o.OrderID = d.OrderID
-WHERE o.OrderDate BETWEEN '1996-08-01' AND '1996-08-07'
+SELECT c.CategoryID, c.CategoryName, SUM(IFNULL(d.Quantity, 0)) Total
+FROM Orders o JOIN OrderDetails d ON o.OrderID = d.OrderID 
+									AND o.OrderDate BETWEEN '1996-08-01' AND '1996-08-07'
+			  JOIN Products p ON p.ProductID = d.ProductID
+              RIGHT JOIN Categories c ON c.CategoryID = p.CategoryID
 GROUP BY c.CategoryID
 ORDER BY Total DESC;
